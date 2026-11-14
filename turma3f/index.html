@@ -18,7 +18,8 @@
 html,body{margin:0;height:100%;background:#2a1650;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 canvas{display:block;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
-.tc{position:fixed;bottom:max(16px,env(safe-area-inset-bottom));width:82px;height:82px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.7);display:none;align-items:center;justify-content:center;color:#fff;font:800 30px 'Baloo 2',sans-serif;z-index:5;touch-action:none}
+.tc{position:fixed;bottom:max(16px,env(safe-area-inset-bottom));width:82px;height:82px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.7);display:none;align-items:center;justify-content:center;color:#fff;font:800 30px 'Baloo 2',sans-serif;z-index:5;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.tc::before{content:attr(data-l);pointer-events:none}
 .tc.on{background:rgba(255,255,255,.55)}
 #bk{right:130px;width:90px;height:90px;font-size:18px;background:rgba(255,210,63,.55)}
 #bs{right:20px;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 108px);width:84px;height:84px;font-size:16px;background:rgba(255,138,61,.5)}
@@ -50,7 +51,7 @@ canvas{display:block;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
 <div id="wrap"><canvas id="c"></canvas></div>
 <input id="nm" maxlength="14" placeholder="Seu nome" autocomplete="off" spellcheck="false">
 <div id="rot"><div class="ar">↺</div><div class="ph"><i></i></div><h2>Deite o celular<br>para jogar melhor!</h2><p>A tela fica maior e os botões ficam mais fáceis.</p><button id="rotok" type="button">Jogar assim mesmo</button></div>
-<div class="tc" id="bl">◀</div><div class="tc" id="br">▶</div><div class="tc" id="bj">PULAR</div><div class="tc" id="bf">ATIRAR</div><div class="tc" id="bs">RÉGUA</div><div class="tc" id="bk">LATIR</div>
+<div class="tc" id="bl" data-l="◀"></div><div class="tc" id="br" data-l="▶"></div><div class="tc" id="bj" data-l="PULAR"></div><div class="tc" id="bf" data-l="ATIRAR"></div><div class="tc" id="bs" data-l="RÉGUA"></div><div class="tc" id="bk" data-l="LATIR"></div>
 <script>
 {
 const cv=document.getElementById('c'),ctx=cv.getContext('2d');
@@ -409,7 +410,7 @@ addEventListener('keyup',e=>{if(e.target&&e.target.tagName==='INPUT')return;cons
  if(k==='c'||k==='C'||k==='v'||k==='V')keys.s=0;
  if(k==='b'||k==='B')keys.b=0});
 const isTouch=('ontouchstart' in window)||matchMedia('(pointer:coarse)').matches;
-function bindTouch(id,on,off){const el=document.getElementById(id);
+function bindTouch(id,on,off){const el=document.getElementById(id);['touchstart','touchend','touchmove','contextmenu','selectstart','dblclick'].forEach(ev=>el.addEventListener(ev,e=>{if(e.cancelable)e.preventDefault()},{passive:false}));
  el.addEventListener('pointerdown',e=>{e.preventDefault();ac();el.setPointerCapture&&el.setPointerCapture(e.pointerId);el.classList.add('on');on()});
  const up=e=>{el.classList.remove('on');off()};['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,up))}
 bindTouch('bl',()=>keys.l=1,()=>keys.l=0);bindTouch('br',()=>keys.r=1,()=>keys.r=0);bindTouch('bj',()=>setJump(1),()=>setJump(0));bindTouch('bf',()=>keys.f=1,()=>keys.f=0);bindTouch('bs',()=>keys.s=1,()=>keys.s=0);bindTouch('bk',()=>keys.b=1,()=>keys.b=0);
@@ -420,6 +421,7 @@ function checkRot(){const portrait=innerHeight>innerWidth*1.05;if(!isTouch||rotD
 document.getElementById('rotok').addEventListener('click',()=>{rotDone=true;rotEl.classList.remove('on');ac()});
 addEventListener('resize',checkRot);addEventListener('orientationchange',()=>setTimeout(checkRot,200));checkRot();
 const nmEl=document.getElementById('nm');nmEl.addEventListener('input',()=>{saved.name=nmEl.value.slice(0,14);save()});nmEl.addEventListener('blur',()=>{saved.name=(saved.name||'').trim();save()});
+document.addEventListener('contextmenu',e=>{if(e.target.tagName!=='INPUT')e.preventDefault()});document.addEventListener('selectstart',e=>{if(e.target.tagName!=='INPUT')e.preventDefault()});
 let ui=[];
 cv.addEventListener('pointerdown',e=>{ac();const rc=cv.getBoundingClientRect();const x=(e.clientX-rc.left)/rc.width*W,y=(e.clientY-rc.top)/rc.height*H;
  for(const b of ui)if(x>=b.x&&x<=b.x+b.w&&y>=b.y&&y<=b.y+b.h){sfx.click();b.fn();break}});
