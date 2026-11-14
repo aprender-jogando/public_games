@@ -820,6 +820,21 @@ function drawGlobe(b,look){const t=b.t||0,sq=b.onGround?1+Math.sin(t*.2)*.04:(b.
  eyes(0,-40,10,6.5,look,true);ctx.strokeStyle='#123a7a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-28,5,Math.PI+.5,-.5);ctx.stroke();ctx.restore()}
 
 // ---------- cenário ----------
+function drawSeason(sn,cm){const T2=['rgba(255,220,120,.12)','rgba(255,150,60,.14)','rgba(110,170,255,.14)','rgba(170,100,255,.12)'];ctx.fillStyle=T2[sn];ctx.fillRect(0,0,W,H);
+ const C=['#e85d75','#4f7cff','#ffd23f','#3ccf6e','#8e5cff','#ff8a3d'],span=300,sc=cm*.6,base=Math.floor(sc/span),off=sc-base*span;
+ const rope=(x,y0,sag)=>{ctx.strokeStyle='rgba(80,60,40,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y0);ctx.quadraticCurveTo(x+span/2,y0+sag*2,x+span,y0);ctx.stroke()};
+ const pt=(x,y0,sag,u)=>({x:x+u*span,y:y0+(1-(2*u-1)**2)*sag});
+ for(let k=0,x=-off;x<W+span;x+=span,k++){const i=base+k;
+  if(sn===0){for(let j=0;j<3;j++){const c=C[(i+j+60)%6];ctx.strokeStyle=c;ctx.lineWidth=3;ctx.beginPath();for(let u=0;u<=40;u++){const xx=x+20+j*90+Math.sin(u*.5+j+frame*.03)*8,yy=u*4;u?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)}ctx.stroke()}
+   for(let j=0;j<10;j++){const cx=x+((j*67+i*31)%span+span)%span,cy=((frame*.6+j*53+i*29)%(H-140)+H-140)%(H-140);ctx.fillStyle=C[(j+i+60)%6];ctx.fillRect(cx,cy,4,6)}}
+  else if(sn===1){rope(x,26,22);for(let j=1;j<10;j++){const p=pt(x,26,22,j/10);ctx.fillStyle=C[(j+i+60)%6];ctx.beginPath();ctx.moveTo(p.x-9,p.y);ctx.lineTo(p.x+9,p.y);ctx.lineTo(p.x,p.y+20+Math.sin(frame*.1+j)*2);ctx.closePath();ctx.fill()}
+   rope(x+span/2,70,16);for(let j=1;j<8;j++){const p=pt(x+span/2,70,16,j/8);ctx.fillStyle=C[(j+i+63)%6];ctx.beginPath();ctx.moveTo(p.x-8,p.y);ctx.lineTo(p.x+8,p.y);ctx.lineTo(p.x,p.y+17);ctx.closePath();ctx.fill()}}
+  else if(sn===2){const kx=x+80+Math.sin(frame*.03+i)*24,ky=70+Math.cos(frame*.04+i*2)*14+(i%2)*40,c1=C[(i+60)%6],c2=C[(i+63)%6];ctx.save();ctx.translate(kx,ky);ctx.rotate(Math.sin(frame*.05+i)*.2);
+   ctx.fillStyle=c1;ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(15,0);ctx.lineTo(0,20);ctx.lineTo(-15,0);ctx.closePath();ctx.fill();ctx.fillStyle=c2;ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(15,0);ctx.lineTo(0,0);ctx.fill();ctx.beginPath();ctx.moveTo(0,20);ctx.lineTo(-15,0);ctx.lineTo(0,0);ctx.fill();
+   ctx.strokeStyle='rgba(60,60,60,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,20);for(let j=1;j<6;j++)ctx.lineTo(Math.sin(frame*.15+j)*6,20+j*9);ctx.stroke();for(let j=1;j<6;j++){ctx.fillStyle=C[(j+i+60)%6];ctx.beginPath();ctx.arc(Math.sin(frame*.15+j)*6,20+j*9,2.5,0,7);ctx.fill()}ctx.restore();
+   ctx.fillStyle='rgba(255,255,255,.55)';for(let j=0;j<3;j++){const lx=x+((j*97+frame*1.5)%span);ctx.fillRect(lx,150+j*40,30,2)}}
+  else{rope(x,24,24);for(let j=1;j<12;j++){const p=pt(x,24,24,j/12),on=(Math.floor(frame/15)+j)%3!==0,c=C[(j+i+60)%6];if(on){ctx.fillStyle=c;ctx.globalAlpha=.35;ctx.beginPath();ctx.arc(p.x,p.y+7,9,0,7);ctx.fill();ctx.globalAlpha=1}ctx.fillStyle=on?c:'rgba(120,120,140,.7)';ctx.beginPath();ctx.ellipse(p.x,p.y+7,3.5,5,0,0,7);ctx.fill();ctx.fillStyle='#777';ctx.fillRect(p.x-2,p.y,4,3)}
+   if(i%2)star(x+150,90,9,'rgba(255,224,102,.8)')}}}
 function drawBg(th,cm){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,th.sky[0]);g.addColorStop(1,th.sky[1]);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
  const rep=(span,f,fn)=>{const sc=cm*f,base=Math.floor(sc/span),off=sc-base*span;for(let k=0,x=-off;x<W+span;x+=span,k++)fn(x,base+k)};
  const COLS=['#e85d75','#4f7cff','#ffd23f','#3ccf6e','#8e5cff','#ff8a3d'];
@@ -1343,7 +1358,7 @@ function loop(now){accum+=Math.min(100,now-last);last=now;while(accum>=1000/60){
  ctx.setTransform(scale*dpr,0,0,scale*dpr,0,0);ui=[];
  if(state==='menu')drawMenu();else if(state==='custom')drawCustom();else if(state==='map')drawMap();else if(state==='travel')drawTravel();else if(state==='levels')drawLevels();else if(state==='ending')drawEnding();else if(state==='rules')drawRules();else if(state==='ach')drawAch();else if(state==='confirm')drawConfirm();
  else{const th=THEMES[lvl.theme];const ox=shake?(Math.random()-.5)*shake:0,oy=shake?(Math.random()-.5)*shake:0;
-  drawBg(th,cam);drawTiles(th,ox,oy);drawChecks(ox,oy);drawGoal(ox,oy);drawItems(ox,oy);
+  drawBg(th,cam);drawSeason(regOf(levelN)%4,cam);drawTiles(th,ox,oy);drawChecks(ox,oy);drawGoal(ox,oy);drawItems(ox,oy);
   for(const m of monsters)if(m.active||!m.alive)drawMon(m,ox,oy);drawBoss(ox,oy);drawPlayer(ox,oy);drawShots(ox,oy);drawParts(ox,oy);drawHUD();drawOverlay();if(state==='quiz'){ui=[];drawQuiz();drawParts(ox,oy)}if(state==='rescue'&&rescue.dlg)drawDlgBox(rescue.dlg,rescueAdv)}
  if(state==='menu'||state==='custom'||state==='ach'||state==='rules'||state==='levels')drawParts(0,0);
  drawToasts();
