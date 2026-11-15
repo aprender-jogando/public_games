@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Resgate da Professora Ju</title>
-<meta name="description" content="Turma do 3F e o Resgate da Professora Ju: jogo de revisão do 3º ano.">
-<meta property="og:title" content="Turma do 3F e o Resgate da Professora Ju">
+<title>Resgate da Prô Ju</title>
+<meta name="description" content="Turma do 3F e o Resgate da Prô Ju: jogo de revisão do 3º ano.">
+<meta property="og:title" content="Turma do 3F e o Resgate da Prô Ju">
 <meta property="og:description" content="Jogo de plataforma para revisar o ano do 3F.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
@@ -186,7 +186,7 @@ function newGame(){if(!(saved.name||'').trim()){state='custom';custMsg=180;retur
 function storyStart(){const n=saved.name||'Você';return[{w:2,t:'Último dia de aula no 3F...'},
  {w:5,t:'Parabéns, turma! Vocês aprenderam tanta coisa este ano!'},
  {w:4,t:'HA HA HA! Eu sou o REI RABISCO! Vou apagar tudo o que vocês aprenderam!'},
- {w:4,t:'E a Professora Ju vem comigo para o meu Castelo de Rabiscos!'},
+ {w:4,t:'E a Prô Ju vem comigo para o meu Castelo de Rabiscos!'},
  {w:5,t:'Socorro! '+n+', relembre tudo o que estudamos e venha me salvar!'},
  {w:0,t:'Pode deixar, Prô! Vou revisar o ano inteiro e salvar você!'},
  {w:2,t:'Cada bimestre tem 4 fases: Português, Matemática, Ciências e História e Geografia. Boa sorte!'}]}
@@ -216,7 +216,7 @@ const ACH=[
  ['sword15','Régua Certeira','Derrotar 15 monstrinhos com a régua'],
  ['viajante','Férias Merecidas','Completar o 1º semestre'],
  ['voar','Piloto de Papel','Voar com o Aviãozinho de Papel'],
- ['zerou','Herói do 3F','Salvar a Professora Ju']];
+ ['zerou','Herói do 3F','Salvar a Prô Ju']];
 let toasts=[];
 function unlock(id){if(saved.ach[id])return;saved.ach[id]=Date.now();save();const a=ACH.find(x=>x[0]===id);if(a){toasts.push({name:a[1],t:220});setTimeout(()=>[784,988,1175,1568,1319,1568].forEach((f,i)=>tone(f,.15,'triangle',.08,0,i*.08)),200)}}
 function drawTrophy(x,y,s,on){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.fillStyle=on?'#ffd23f':'#d9cfe6';ctx.strokeStyle=on?'#c98a00':'#a99bbd';ctx.lineWidth=1.5;
@@ -272,7 +272,7 @@ const QB=[
   ['Qual é a principal fonte de luz natural do dia?',['O Sol','A lâmpada','A televisão','A lanterna'],'A lâmpada é uma fonte de luz artificial.'],
   ['Para proteger os olhos, NÃO devemos...',['Olhar diretamente para o Sol','Usar óculos escuros','Piscar','Ler em lugar iluminado'],'Olhar para o Sol pode machucar os olhos.'],
   ['A sombra aparece quando um objeto...',['Bloqueia a luz','Fica molhado','Faz barulho','Esquenta'],'Objetos opacos não deixam a luz passar.'],
-  ['Quem enxerga com dificuldade pode usar...',['Óculos','Fone de ouvido','Luvas','Boné'],'Como a Professora Ju!']]},
+  ['Quem enxerga com dificuldade pode usar...',['Óculos','Fone de ouvido','Luvas','Boné'],'Como a Prô Ju!']]},
  {t:'Paisagens e pontos de referência',q:[
   ['Uma paisagem com rios, matas e montanhas, sem construções, é...',['Natural','Modificada','Urbana','Industrial'],'Ela não foi transformada pelas pessoas.'],
   ['Uma paisagem com casas, ruas e prédios é...',['Modificada pelas pessoas','Natural','Só de animais','Submarina'],'As pessoas transformam a paisagem.'],
@@ -969,7 +969,7 @@ function drawMenu(){const th=THEMES[1];drawBg(th,cam);
  ctx.fillStyle=th.grass;ctx.fillRect(0,H-70,W,70);ctx.fillStyle='#dfe9f8';ctx.fillRect(0,H-56,W,56);
  const title='Turma do 3F',cols=['#e85d75','#ff8a3d','#ffd23f','#3ccf6e','#33b5ff','#2f5bea','#8e5cff'],fs=Math.min(64,(W-40)/7);ctx.font='800 '+fs+'px '+FONT;let tx=W/2-ctx.measureText(title).width/2;
  for(let i=0;i<title.length;i++){const ch=title[i],cw=ctx.measureText(ch).width;if(ch!==' ')txt(ch,tx+cw/2,64+Math.sin(frame*.08+i)*5,fs,cols[i%7]);tx+=cw}
- txt('e o Resgate da Professora Ju',W/2,116,Math.min(28,(W-30)/18),'#fff');
+ txt('e o Resgate da Prô Ju',W/2,116,Math.min(28,(W-30)/18),'#fff');
  txt(saved.gameBeaten?'★ Você salvou a Prô! Jogue de novo para pegar todas as estrelas! ★':'Uma aventura de revisão do 3º ano',W/2,152,16,saved.gameBeaten?'#e0a000':ROYAL,'center',0);
  drawJulia(W/2,H-70,1,3,frame%160<80?'idle':'happy',frame);
  drawMon({k:'fiapo',x:cam+W/2-210,y:H-94,w:26,h:24,alive:true,t:frame,dir:1,onGround:true},0,0);
@@ -1039,7 +1039,7 @@ function fakeMon(k,x,y){return{k,x:cam+x-13,y:y-24,w:26,h:24,alive:true,t:frame,
 function block(x,y){ctx.fillStyle='hsl(45,100%,58%)';rr(x-14,y-14,28,28,5);ctx.fill();ctx.strokeStyle='#b37400';ctx.lineWidth=2;ctx.stroke();txt('?',x,y+1,19,'#fff','center','#b37400')}
 const RULES=[
  ['Como jogar',[
-  [0,'Objetivo','Relembre os conteúdos do ano, vença os chefões e salve a Professora Ju!',x=>drawJulia(x,26,1,1.2,'happy',frame)],
+  [0,'Objetivo','Relembre os conteúdos do ano, vença os chefões e salve a Prô Ju!',x=>drawJulia(x,26,1,1.2,'happy',frame)],
   [0,'Andar e pular',isTouch?'Use ◀ ▶ para andar e PULAR para pular.':'Setas ← → para andar. ↑ ou Espaço para pular.',x=>{txt('◀▶',x,0,22,'#8e5cff','center',0)}],
   [0,'Monstrinhos','Pule em cima do Borrão, do Zerinho, da Bolota e da Mosca da Distração!',x=>drawMon(fakeMon('fiapo',x,14),0,0)],
   [0,'Lápis Mágico',isTouch?'Toque em ATIRAR para lançar estrelinhas.':'Aperte X para lançar estrelinhas.',x=>drawBlaster(x,0,1.3,1)],
@@ -1236,7 +1236,7 @@ function drawDlgBox(d,adv){const l=d.lines[d.i],bw=Math.min(W-30,640),x=W/2-bw/2
  ctx.fillStyle='rgba(0,0,0,.3)';rr(x,y+6,bw,132,20);ctx.fill();ctx.fillStyle='#fff7fc';rr(x,y,bw,132,20);ctx.fill();ctx.lineWidth=4;ctx.strokeStyle='#3a1d6e';ctx.stroke();
  let tx=x+24;if(l.w!==2){const c=l.w===3?2:l.w;ctx.save();ctx.beginPath();ctx.arc(x+64,y+66,48,0,7);ctx.fillStyle=['#e8f4ff','#ffe3f1','','#fff6d6','#3a1d6e','#ffe3ea','#e3f0ff'][l.w];ctx.fill();ctx.clip();
   if(l.w===4){ctx.translate(x+64,y+132);ctx.scale(.55,.55);drawUltra({t:frame,ph:1,st:'walk',onGround:true,vx:0})}else if(l.w===5||l.w===6)drawParent(x+64,y+196,1,2.6,l.w-5,'happy',frame);else if(c===2)drawDog(x+40,y+130,1,3.2,'happy',frame,frame%30<15);else drawJulia(x+64,y+150,1,3.4,'happy',frame,lookOf(c));ctx.restore();tx=x+128;
-  txt([saved.name||'Você','Sophia','','Malú','Rei Rabisco','Professora Ju',''][l.w],tx,y+24,20,['#33b5ff','#ff5fa2','','#e0a000','#c2185b','#e8466e','#2a7fc0'][l.w],'left',0)}
+  txt([saved.name||'Você','Sophia','','Malú','Rei Rabisco','Prô Ju',''][l.w],tx,y+24,20,['#33b5ff','#ff5fa2','','#e0a000','#c2185b','#e8466e','#2a7fc0'][l.w],'left',0)}
  const L=wrapLines(l.t,x+bw-tx-20,l.w===2?20:19);L.slice(0,3).forEach((s2,i)=>txt(s2,l.w===2?W/2:tx,(l.w===2?y+40:y+54)+i*25,l.w===2?20:19,'#3a1d6e',l.w===2?'center':'left',0));
  if(frame%50<35)txt('toque para continuar ▶',x+bw-18,y+116,13,'#8e5cff','right',0)}
 function drawTravel(){const t=travel.t,r=travel.r;ui=[{x:0,y:0,w:W,h:H,fn:()=>{travel.t=999},main:true}];
@@ -1345,7 +1345,7 @@ function drawEnding(){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0
  drawSchool(W/2,H-64,1.15);ctx.fillStyle='#ffd23f';rr(W/2-70,H-200,140,22,8);ctx.fill();txt('FIM DO 3º ANO!',W/2,H-189,14,'#3a1d6e','center',0);
  const gy=H-50,hop=i=>-Math.abs(Math.sin(frame*.12+i*1.3))*10,n=CLASS.length+2,sp=Math.min(62,(W-40)/n),x0=W/2-sp*(n-1)/2;
  let k=0;for(let i=0;i<CLASS.length;i++){if(i===Math.floor(CLASS.length/2)){drawJulia(x0+k*sp,gy+hop(k),1,1.75,'happy',frame);k++;drawParent(x0+k*sp,gy+hop(k),-1,1.35,0,'happy',frame);k++}drawJulia(x0+k*sp,gy+hop(k),i%2?-1:1,1.4,'happy',frame+i*20,CLASS[i]);k++}
- const title='VOCÊ SALVOU A PROFESSORA JU!',fs=Math.min(40,(W-40)/15.5);ctx.font='800 '+fs+'px '+FONT;let tx=W/2-ctx.measureText(title).width/2;
+ const title='VOCÊ SALVOU A PRÔ JU!',fs=Math.min(40,(W-40)/12.5);ctx.font='800 '+fs+'px '+FONT;let tx=W/2-ctx.measureText(title).width/2;
  for(let i=0;i<title.length;i++){const ch=title[i],cw=ctx.measureText(ch).width;if(ch!==' ')txt(ch,tx+cw/2,52+Math.sin(frame*.1+i*.5)*4,fs,BTN_COLS[i%6]);tx+=cw}
  txt('Parabéns, '+(saved.name||'você')+'! O 3F terminou o ano!',W/2,94,Math.min(22,(W-30)/24),'#fff');
  if(endT>90){const na=ACH.filter(a=>saved.ach[a[0]]).length,stars=Object.values(saved.levels).reduce((a,d)=>a+(d.stars||0),0);ctx.globalAlpha=Math.min(1,(endT-90)/30);
